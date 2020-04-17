@@ -1,17 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import NoteContext from '../NoteContext'
 
 
 class Main extends React.Component {
-  notes = (id) => {
-    console.log("note click", id)
+  static contextType = NoteContext;
 
-    
-    
-  }
+
 
     render(){
-      const notes = this.props.notes.map((obj,index) => {
+      const notes = this.context.notes.map((obj,index) => {
           const date = new Date(obj.modified).toUTCString();
        return <div 
                key={obj.id}
@@ -20,7 +18,9 @@ class Main extends React.Component {
                 className="noteTitle">
                   {obj.name}</Link>
                 <p>Date modified on {date}
-                <button className="deleteButton">Delete Note</button>
+                <button 
+                onClick={() => this.context.deleteNote(obj.id)}
+                className="deleteButton">Delete Note</button>
                 </p>
               </div>
       })

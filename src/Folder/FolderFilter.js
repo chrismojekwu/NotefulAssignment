@@ -1,14 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import NoteContext from '../NoteContext'
 
 
 class FoldFilter extends React.Component {
+    static contextType = NoteContext;
+
     render(){
-       
-        /*const folder = obj.folders.find(folder => 
-            folder.id === this.props.match.params.folderId
-            )*/
-        const notes = this.props.notes.filter(note => {
+       const notes = this.context.notes.filter(note => {
            return note.folderId === this.props.match.params.folderId
         }).map(notes => {
             const date = new Date(notes.modified).toUTCString();
@@ -19,7 +18,9 @@ class FoldFilter extends React.Component {
                     className="noteTitle">
                       {notes.name}</Link>
                     <p>Date modified on {date}
-                    <button className="deleteButton">Delete Note</button>
+                    <button 
+                    onClick={() => this.context.deleteNote(notes.id)}
+                    className="deleteButton">Delete Note</button>
                     </p>
                    </div>
         }

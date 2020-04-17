@@ -1,9 +1,16 @@
 import React from 'react';
+import NoteContext from '../NoteContext'
 
 class Note extends React.Component {
+ static contextType = NoteContext;   
+
+ deleteButton = (id) => {
+     this.context.deleteNote(id)
+     this.props.history.push('/')
+ }
 
  render(){
-       const note = this.props.notes.find(note => 
+       const note = this.context.notes.find(note => 
         note.id === this.props.match.params.noteId
         )
 
@@ -17,6 +24,7 @@ class Note extends React.Component {
                    {note.name}
                 <p>Date modified on {date}
                 <button 
+                onClick={() => this.deleteButton(note.id)}
                 className="deleteButton">Delete Note</button>
                 </p></div>
                 {note.content}

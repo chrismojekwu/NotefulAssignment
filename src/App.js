@@ -1,38 +1,107 @@
 import React from 'react';
 import './App.css';
-import obj from './store'
+//import obj from './store'
 import Folder from './Folder/Folder'
 import NoteFolder from './Folder/NoteFolder'
 import Main from './Main/Main'
 import Note from './Note/Note'
 import FoldFilter from './Folder/FolderFilter'
+import NoteContext from './NoteContext'
 import {Route} from 'react-router-dom';
 
 
 class App extends React.Component {
    state = {
-     folders: obj.folders,
-     notes: obj.notes,
+     folders:[],
+     notes: [],
    }
 
    backButton = () => {
     console.log("back")
 
 }
+ 
+deleteNote = (id) => {
+  
+ const url = `http://localhost:9090/notes/${id}`
+
+ const newNotes = this.state.notes.filter(notes => notes.id !== id);
+  
+  fetch(url, {
+    method: "DELETE",
+    headers: {
+      'content-type': 'application/json'
+    },
+  })
+  .then(response => {
+    
+    return response.json()
+  })
+  .then(data => {
+    this.setState({
+      notes: newNotes
+    })  
+  })
+  .catch(error => {
+    alert('error with delete request')
+  })
+  
+  
+  
+}
+
+  componentDidMount() {
+    const url1 = `http://localhost:9090/folders`
+    const url2 = `http://localhost:9090/notes`
+
+    fetch(url1)
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      this.setState({
+        folders: data
+      })
+    })
+    .catch(error => {
+      alert('error fetching folders')
+    })
+
+    fetch(url2)
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      this.setState({
+        notes: data
+      })
+    })
+    .catch(error => {
+      alert('error fetching notes')
+    })
+ }
 
   render(){
+
+    const contextValue = {
+      folders: this.state.folders,
+      notes: this.state.notes,
+      deleteNote: this.deleteNote,
+    }
+
    return (
     <>
       <nav>
         <a href="/">Noteful</a>
       </nav>
+      <NoteContext.Provider value={contextValue}>
       <section className="sidebar">
       <Route 
       exact path="/"
       render={(props) => 
         (<Folder
         {...props}
-        folders={this.state.folders}
+        
         />)}
       />
       <Route
@@ -40,8 +109,8 @@ class App extends React.Component {
         component={(routeProps) => 
           (<NoteFolder
           {...routeProps}
-          folders={this.state.folders}
-          notes={this.state.notes}
+          
+          
           />)}
         />
         <Route
@@ -49,7 +118,7 @@ class App extends React.Component {
         component={(routeProps) => 
           (<Folder
           {...routeProps}
-          folders={this.state.folders}
+          
           />)}
         />
        
@@ -58,10 +127,9 @@ class App extends React.Component {
       <main>
         <Route
          exact path="/"
-         component={() => 
+         component={(routeProps) => 
           (<Main
-          notes={this.state.notes}
-          folders={this.state.folders}
+          {...routeProps}
           />)}
         />
         <Route
@@ -69,7 +137,7 @@ class App extends React.Component {
         component={(routeProps) => (
         <Note
         {...routeProps}
-        notes={this.state.notes}
+        
         />)}
         />
          <Route
@@ -77,10 +145,11 @@ class App extends React.Component {
         component={(routeProps) => (
           <FoldFilter
           {...routeProps}
-          notes={this.state.notes}
+          
           />)}
         />
       </main>
+      </NoteContext.Provider>
      </>
    )
  }

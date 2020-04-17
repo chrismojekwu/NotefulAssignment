@@ -1,18 +1,19 @@
 import React from 'react';
+import NoteContext from '../NoteContext'
 
 
 class NoteFolder extends React.Component {
+    static contextType = NoteContext;
+
     backButton = () => {
-        console.log("back")
-      this.props.history.goBack()
-  
+    this.props.history.goBack()
     } 
 
     render(){
-        const note = this.props.notes.find(note => 
+        const note = this.context.notes.find(note => 
             note.id === this.props.match.params.noteId
             )
-        const folder = this.props.folders.find(folder => 
+        const folder = this.context.folders.find(folder => 
             folder.id === note.folderId
             )    
 

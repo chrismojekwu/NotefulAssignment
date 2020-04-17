@@ -51,4 +51,3 @@ class SelectedFolder extends React.Component {
     }
 }
 
-export default SelectedFolder

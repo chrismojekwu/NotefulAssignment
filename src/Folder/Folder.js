@@ -1,13 +1,15 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import NoteContext from '../NoteContext'
 
 
 class Folder extends React.Component {
+    static contextType = NoteContext;
     
 
     render(){
        const folderId = this.props.match.params.folderId ? this.props.match.params.folderId:"";
-       const folders = this.props.folders.map((obj,index) => {
+       const folders = this.context.folders.map((obj,index) => {
            const selectedClass = obj.id === folderId ? "folder highlight": "folder";
            return <div 
            key={obj.id}
