@@ -1,5 +1,7 @@
 import React from 'react';
 import NoteContext from '../NoteContext'
+import PropTypes from 'prop-types'
+
 
 
 class NoteFolder extends React.Component {
@@ -31,3 +33,11 @@ class NoteFolder extends React.Component {
 }
 
 export default NoteFolder;
+
+NoteFolder.propTypes = {
+    context: PropTypes.shape({
+      folders:PropTypes.arrayOf({}),
+      notes:PropTypes.arrayOf({}),
+      deleteNote: PropTypes.func
+    })
+ }

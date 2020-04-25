@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import NoteContext from '../NoteContext'
 
 
@@ -28,9 +29,20 @@ class Main extends React.Component {
         return (
             <>
             {notes}
+            <button className="addNoteButton" 
+            onClick={() => this.props.history.push("/addnote")}>Add Note</button>
             </>
         )
     }
 }
 
 export default Main;
+
+Main.propTypes = {
+   context: PropTypes.shape({
+     folders:PropTypes.arrayOf({}),
+     notes:PropTypes.arrayOf({}),
+     deleteNote: PropTypes.func
+   })
+}
+

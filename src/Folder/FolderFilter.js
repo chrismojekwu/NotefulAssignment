@@ -1,6 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import NoteContext from '../NoteContext'
+import PropTypes from 'prop-types'
+
 
 
 class FoldFilter extends React.Component {
@@ -30,6 +32,8 @@ class FoldFilter extends React.Component {
         return (
                 <>
               {notes}
+              <button className="addNoteButton" 
+               onClick={() => this.props.history.push("/addnote")}>Add Note</button>
                 </>
         )
     }
@@ -37,4 +41,11 @@ class FoldFilter extends React.Component {
 
 export default FoldFilter
 
-/**/
+
+FoldFilter.propTypes = {
+    context: PropTypes.shape({
+      folders:PropTypes.arrayOf({}),
+      notes:PropTypes.arrayOf({}),
+      deleteNote: PropTypes.func
+    })
+ }

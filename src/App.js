@@ -7,19 +7,22 @@ import Main from './Main/Main'
 import Note from './Note/Note'
 import FoldFilter from './Folder/FolderFilter'
 import NoteContext from './NoteContext'
+import AddFolder from './AddFolder/AddFolder'
+import AddNote from './AddNote/AddNote'
+import ErrorBoundary from './ErrorBoundary'
 import {Route} from 'react-router-dom';
 
 
+
+
 class App extends React.Component {
-   state = {
-     folders:[],
-     notes: [],
-   }
-
-   backButton = () => {
-    console.log("back")
-
-}
+  
+     state = {
+       folders:[],
+       notes: [],
+      }
+  
+  
  
 deleteNote = (id) => {
   
@@ -34,7 +37,6 @@ deleteNote = (id) => {
     },
   })
   .then(response => {
-    
     return response.json()
   })
   .then(data => {
@@ -79,7 +81,10 @@ deleteNote = (id) => {
     .catch(error => {
       alert('error fetching notes')
     })
- }
+ } 
+
+ 
+
 
   render(){
 
@@ -91,9 +96,9 @@ deleteNote = (id) => {
 
    return (
     <>
-      <nav>
+      <header>
         <a href="/">Noteful</a>
-      </nav>
+      </header>
       <NoteContext.Provider value={contextValue}>
       <section className="sidebar">
       <Route 
@@ -147,6 +152,28 @@ deleteNote = (id) => {
           {...routeProps}
           
           />)}
+        />
+        <Route
+        path={`/addfolder`}
+        component={(routeProps) => (
+          <ErrorBoundary>
+            <AddFolder
+            {...routeProps}
+            
+            />
+          </ErrorBoundary>
+          )}
+        />
+         <Route
+        path={`/addnote`}
+        component={(routeProps) => (
+          <ErrorBoundary>
+            <AddNote
+            {...routeProps}
+            
+            />
+          </ErrorBoundary>
+          )}
         />
       </main>
       </NoteContext.Provider>

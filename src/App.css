@@ -1,4 +1,4 @@
-nav {
+header {
   text-align: center;
   padding-top: 100px;
   padding-right: 160px;
@@ -14,6 +14,20 @@ main {
   width: 66% ;
   align-content: right;  
 }
+input {
+  display: block;
+  font-size: 20px;
+}
+.folder-back {
+  margin-top: 10px;
+  font-size: 20px;
+}
+#note-body {
+  width: 70%;
+  height:200px;
+  font-size: 16px;
+}
+
 .sidebar {
   display: inline-block;
   position: relative;  
@@ -56,4 +70,7 @@ main {
 
 .highlight {
   background-color: cadetblue;
+}
+.error {
+  text-align: center;
 }
