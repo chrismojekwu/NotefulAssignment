@@ -34,8 +34,9 @@ class AddFolder extends React.Component {
           id: id,
           name: folderNameInput.value
       }
+     
+    //this.context.updateFolders(folder)    
 
-      //console.log(folder)
       fetch(url, {
           method: "POST",
           body: JSON.stringify(folder) ,
@@ -49,9 +50,10 @@ class AddFolder extends React.Component {
         .then(data => {
            folder.name = "";
            folder.id = "";
-           window.location.assign('/')
-           //console.log(data)
-           //this.context.updateFolders(data) 
+           window.location.assign("/")
+           //this.props.history.push("/")
+           
+           
         })
         .catch(error => {
             alert("error adding folder")

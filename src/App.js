@@ -24,7 +24,7 @@ class App extends React.Component {
   
   
  
-deleteNote = (id) => {
+ deleteNote = (id) => {
   
  const url = `http://localhost:9090/notes/${id}`
 
@@ -47,10 +47,19 @@ deleteNote = (id) => {
   .catch(error => {
     alert('error with delete request')
   })
-  
-  
-  
+ }
+
+ updateNotes = (note) => {
+  this.setState({
+    notes: [...this.state.notes, note]
+  })
 }
+
+updateFolders = (folder) => {
+  this.setState({
+    notes: [...this.state.folders, folder]
+  })
+}   
 
   componentDidMount() {
     const url1 = `http://localhost:9090/folders`
@@ -92,6 +101,8 @@ deleteNote = (id) => {
       folders: this.state.folders,
       notes: this.state.notes,
       deleteNote: this.deleteNote,
+      updateFolders: this.updateFolders,
+      updateNotes: this.updateNotes
     }
 
    return (
@@ -135,6 +146,7 @@ deleteNote = (id) => {
          component={(routeProps) => 
           (<Main
           {...routeProps}
+          notes={this.state.notes}
           />)}
         />
         <Route

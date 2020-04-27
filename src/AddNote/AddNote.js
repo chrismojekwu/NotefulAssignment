@@ -33,6 +33,8 @@ class AddNote extends React.Component {
           content: noteBody.value
         }
 
+        //this.context.updateNotes(note)   
+
         fetch(url, {
             method: "POST",
             body: JSON.stringify(note) ,
@@ -49,15 +51,15 @@ class AddNote extends React.Component {
              note.modified = "";
              note.folderId = "";
              note.content = "";
-             window.location.assign('/')
+             window.location.assign("/")
+             //this.props.history.push("/")
+             
              //console.log(data)
-             //this.context.updateFolders(data) 
+             
           })
           .catch(error => {
               alert("error adding note")
         })  
-
-      //console.log(note)
     }
 
     generateError = () => {
@@ -79,6 +81,7 @@ class AddNote extends React.Component {
        })
      }
 
+
     render(){
      const options = this.context.folders.map((folder,index) => {
          return (<option key={folder.id} value={folder.id}>{folder.name}</option>)
@@ -89,7 +92,7 @@ class AddNote extends React.Component {
             <input type="text" 
             onChange={(e) => this.validateNoteName(e.target.value)} value={this.state.newNoteName.value}
             id="note-name" name="noteName"className="note-name" required/>
-            <select style={{display:"block"}} name="folderName" id="folder-select">
+            <select style={{display:"block"}} name="folderName" id="folder-select" required>
                   {options}
             </select>
             <textarea type="text" id="note-body" name="noteBody" className="note-body" required></textarea>

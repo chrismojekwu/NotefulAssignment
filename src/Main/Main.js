@@ -10,7 +10,7 @@ class Main extends React.Component {
 
 
     render(){
-      const notes = this.context.notes.map((obj,index) => {
+      const notes = this.props.notes.map((obj,index) => {
           const date = new Date(obj.modified).toUTCString();
        return <div 
                key={obj.id}
@@ -39,10 +39,12 @@ class Main extends React.Component {
 export default Main;
 
 Main.propTypes = {
-   context: PropTypes.shape({
-     folders:PropTypes.arrayOf({}),
-     notes:PropTypes.arrayOf({}),
-     deleteNote: PropTypes.func
-   })
+   notes: PropTypes.arrayOf(PropTypes.shape({
+     id: PropTypes.string.isRequired,
+     name: PropTypes.string.isRequired,
+     modified: PropTypes.string.isRequired,
+     folderId: PropTypes.string.isRequired,
+     content: PropTypes.string.isRequired,
+   }))
 }
 
