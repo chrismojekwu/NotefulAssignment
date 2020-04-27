@@ -88,11 +88,11 @@ class AddNote extends React.Component {
         <form onSubmit={this.addNote} className="add-note">
             <input type="text" 
             onChange={(e) => this.validateNoteName(e.target.value)} value={this.state.newNoteName.value}
-            id="note-name" name="noteName"className="note-name"/>
+            id="note-name" name="noteName"className="note-name" required/>
             <select style={{display:"block"}} name="folderName" id="folder-select">
                   {options}
             </select>
-            <textarea type="text" id="note-body" name="noteBody" className="note-body"></textarea>
+            <textarea type="text" id="note-body" name="noteBody" className="note-body" required></textarea>
             <input type="submit" value="Add Note"/>
            
         </form>

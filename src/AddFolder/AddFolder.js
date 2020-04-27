@@ -94,6 +94,7 @@ class AddFolder extends React.Component {
            type="text" 
            onChange={(e) => {this.validateFolderName(e.target.value)}}
            value={this.state.newFolderName.value}
+           required
            />
 
            <input type="submit" value="Add Folder"/>
