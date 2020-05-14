@@ -20,24 +20,15 @@ class AddFolder extends React.Component {
     addFolder = (e) => {
      e.preventDefault()
 
-     const {folderNameInput} = e.target
-     //const name = e.target.folderNameInput.value
-     const url = `http://localhost:9090/folders`
-     const id = 
-        Math.random().toString(36).substring(2, 4)
-      + Math.random().toString(36).substring(2, 4) 
-      + Math.random().toString(36).substring(2, 4)
-      + Math.random().toString(36).substring(2, 4)
-      + Math.random().toString(36).substring(2, 4);
-
-     const folder = {
-          id: id,
-          name: folderNameInput.value
-      }
+     const folderName = this.state.newFolderName.value
      
-    //this.context.updateFolders(folder)    
-
-      fetch(url, {
+     const url = `http://localhost:9090/folders`
+    
+     const folder = {
+          name: folderName
+     }     
+          
+     fetch(url, {
           method: "POST",
           body: JSON.stringify(folder) ,
           headers: {
@@ -48,12 +39,8 @@ class AddFolder extends React.Component {
             return response.json()
         }) 
         .then(data => {
-           folder.name = "";
-           folder.id = "";
-           window.location.assign("/")
-           //this.props.history.push("/")
-           
-           
+           this.context.updateFolders(data) 
+           this.props.history.push("/")   
         })
         .catch(error => {
             alert("error adding folder")

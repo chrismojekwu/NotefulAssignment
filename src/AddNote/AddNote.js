@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 class AddNote extends React.Component {
     state = {
-      newNoteName: {
         value: "",
+        folderId: "",
+        content: "",
         touched: false
-      },
+      
     }
    
     static contextType = NoteContext;
@@ -18,22 +19,13 @@ class AddNote extends React.Component {
       
 
       const url = `http://localhost:9090/notes`
-      const id = 
-        Math.random().toString(36).substring(2, 4)
-      + Math.random().toString(36).substring(2, 4) 
-      + Math.random().toString(36).substring(2, 4)
-      + Math.random().toString(36).substring(2, 4)
-      + Math.random().toString(36).substring(2, 4);
-
+   
       const note = {
-          id: id,
           name: noteName.value,
           modified: new Date(),
           folderId: folderName.value,
           content: noteBody.value
         }
-
-        //this.context.updateNotes(note)   
 
         fetch(url, {
             method: "POST",
@@ -46,16 +38,8 @@ class AddNote extends React.Component {
               return response.json()
           }) 
           .then(data => {
-             note.name = "";
-             note.id = "";
-             note.modified = "";
-             note.folderId = "";
-             note.content = "";
-             window.location.assign("/")
-             //this.props.history.push("/")
-             
-             //console.log(data)
-             
+            this.context.updateNotes(data)   
+            this.props.history.push("/")    
           })
           .catch(error => {
               alert("error adding note")
@@ -63,7 +47,7 @@ class AddNote extends React.Component {
     }
 
     generateError = () => {
-      const noteName = this.state.newNoteName.value;
+      const noteName = this.state.value;
 
       if(noteName === ""){
           return "Please enter a note name"
@@ -72,14 +56,24 @@ class AddNote extends React.Component {
       }
   }
 
-   validateNoteName = (name) => {
-       this.setState({
-         newNoteName: {
-           value: name,
-           touched: true
-         }
-       })
+   updateNoteName = (noteName) => {
+      this.setState({
+         value: noteName,
+         touched: true
+         })
      }
+
+     updateFolderId = (id) => {
+      this.setState({
+        folderId: id
+        })
+    }
+    
+    updateContent = (content) => {
+      this.setState({
+        content
+        })
+    }
 
 
     render(){
@@ -90,16 +84,18 @@ class AddNote extends React.Component {
         <>
         <form onSubmit={this.addNote} className="add-note">
             <input type="text" 
-            onChange={(e) => this.validateNoteName(e.target.value)} value={this.state.newNoteName.value}
+            onChange={(e) => this.updateNoteName(e.target.value)} value={this.state.value}
             id="note-name" name="noteName"className="note-name" required/>
-            <select style={{display:"block"}} name="folderName" id="folder-select" required>
+            <select onChange={(e) => this.updateFolderId(e.target.value)} 
+            style={{display:"block"}} name="folderName" id="folder-select" required>
                   {options}
             </select>
-            <textarea type="text" id="note-body" name="noteBody" className="note-body" required></textarea>
+            <textarea onChange={(e) => this.updateContent(e.target.value)}
+            type="text" id="note-body" name="noteBody" className="note-body" required></textarea>
             <input type="submit" value="Add Note"/>
            
         </form>
-        {this.generateError() && this.state.newNoteName.touched ?
+        {this.generateError() && this.state.touched ?
        <p>{this.generateError()}</p>: ""}
        </>
      )

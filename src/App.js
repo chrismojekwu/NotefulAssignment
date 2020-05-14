@@ -57,7 +57,7 @@ class App extends React.Component {
 
 updateFolders = (folder) => {
   this.setState({
-    notes: [...this.state.folders, folder]
+    folders: [...this.state.folders, folder]
   })
 }   
 
